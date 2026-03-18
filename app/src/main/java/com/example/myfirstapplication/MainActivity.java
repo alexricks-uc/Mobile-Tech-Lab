@@ -7,10 +7,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,10 +33,58 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
         Bundle extras = getIntent().getExtras();
         String msg = extras.getString("message");
         TextView textView = findViewById(R.id.textViewOutput);
         textView.setText(msg);
+
+        DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
+        dbref.child("example").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String uploadedText = snapshot.getValue().toString();
+                TextView textView = findViewById(R.id.textViewOutput);
+                textView.setText(uploadedText);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+//        dbref.child("example").removeValue();
+
+        DatabaseReference dbref2 = FirebaseDatabase.getInstance().getReference("UI and Events");
+        dbref2.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                String uploadedText = snapshot.getValue().toString();
+                TextView textView = findViewById(R.id.textViewOutput);
+                textView.append("\n" + uploadedText); // get all values
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+//        dbref.removeValue();
     }
 
     public void displayMessage(View view) {
@@ -36,5 +93,13 @@ public class MainActivity extends AppCompatActivity {
         textView.setText(editText.getText());
 
         Toast.makeText(this,"OK button clicked.", Toast.LENGTH_LONG).show();
+
+        String inputText = editText.getText().toString();
+        DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
+        String childname = dbref.push().getKey();
+        dbref.child(childname).setValue(inputText);
     }
 }
+/*git add .
+git commit -m "Week 5 Lab"
+git push -u origin main*/
