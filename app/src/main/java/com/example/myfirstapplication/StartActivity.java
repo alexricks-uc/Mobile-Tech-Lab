@@ -43,5 +43,15 @@ public class StartActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        Button ml_kit_button = findViewById(R.id.buttonMLKit);
+        ml_kit_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(StartActivity.this, MLKitActivity.class);
+                intent.putExtra("message", "Hello World!");
+                startActivity(intent);
+            }
+        });
     }
 }
