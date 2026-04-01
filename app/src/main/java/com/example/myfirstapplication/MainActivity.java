@@ -101,5 +101,5 @@ public class MainActivity extends AppCompatActivity {
     }
 }
 /*git add .
-git commit -m "Week 6 Lab"
+git commit -m "All completed except step 17, please see comment"
 git push -u origin main*/
