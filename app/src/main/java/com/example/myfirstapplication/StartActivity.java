@@ -53,5 +53,15 @@ public class StartActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        Button sqlite_button = findViewById(R.id.buttonSQLite);
+        sqlite_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(StartActivity.this, SQLiteActivity.class);
+                intent.putExtra("message", "Hello World!");
+                startActivity(intent);
+            }
+        });
     }
 }
