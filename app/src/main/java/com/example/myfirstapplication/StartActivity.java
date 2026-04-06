@@ -63,5 +63,25 @@ public class StartActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        Button animation_button = findViewById(R.id.buttonAnimation);
+        animation_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(StartActivity.this, AnimationActivity.class);
+                intent.putExtra("message", "Hello World!");
+                startActivity(intent);
+            }
+        });
+
+        Button multimedia_button = findViewById(R.id.buttonMultimedia);
+        multimedia_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(StartActivity.this, MultimediaActivity.class);
+                intent.putExtra("message", "Hello World!");
+                startActivity(intent);
+            }
+        });
     }
 }
